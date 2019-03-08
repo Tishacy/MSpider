@@ -1,5 +1,6 @@
-"""
-	多线程爬虫与下载器
+# -*- coding: utf-8 -*-
+
+"""多线程下载器与多线程爬虫容器
 """
 
 import os
@@ -11,14 +12,16 @@ import json
 from threading import Thread
 from queue import Queue
 from bs4 import BeautifulSoup
-
+from tqdm import tqdm
 
 
 # CLASS Downloader
 
 class Downloader(object):
 	"""多线程下载器
-	参数: source_dict
+
+	-----------------
+	source_dict: (dictionary) 该参数须有两个键"names"和"urls", 示例如下：
 		source_dict = {
 			"names":[name1, name2, ..., namen],
 		 	"urls":[url1, url2, ..., urln]
@@ -77,7 +80,7 @@ class Downloader(object):
 	def down_batch(self, frm, batch_size):
 		url_list = self.url_list[frm: frm + batch_size]
 		name_list = self.name_list[frm: frm + batch_size]
-		for i, url in enumerate(url_list):			
+		for i, url in enumerate(url_list):
 			if self.file_extension == 'normal':
 				filex = url.split('.')[-1]
 			else:
@@ -110,7 +113,8 @@ class Downloader(object):
 def test_downloader():
 	source_dict = {
 		"names":['baidu','google'],
-		"urls": ["https://www.baidu.com/img/baidu_resultlogo@2.png",'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png']
+		"urls": ['https://www.baidu.com/img/baidu_resultlogo@2.png',
+				 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png']
 	}
 	downloader = MultiThreadDownloader(source_dict, 'html')
 	downloader.download('test', engine="wget")
@@ -121,7 +125,14 @@ def test_downloader():
 # CLASS Crawler
 
 class Crawler(object):
-	"""多线程爬虫
+	"""多线程爬虫包装容器
+	通过传入爬虫基本函数(basic_func)，来实现单线程爬虫的多线程化
+
+	-----------------------
+	basic_func: (function) 具体的单线程爬虫函数
+	urls: (list) 需要单线程爬虫处理的url列表
+		 该列表中可以存放需要basic_func处理的任何信息，并非只有url
+	has_result: (boolean) 单线程爬虫函数是否需要信息输出
 	"""
 	def __init__(self, basic_func, urls, has_result=False):
 		super(Crawler, self).__init__()
@@ -129,6 +140,7 @@ class Crawler(object):
 		self.has_result = has_result
 		self.urls = urls
 		self.num_urls = len(self.urls)
+		self.failed_urls = []
 		self.check()
 
 	def check(self):
@@ -138,14 +150,15 @@ class Crawler(object):
 
 	def crawl(self):
 		# 初始化参数
-		print("共有 %d 个url" %(self.num_urls))
-		batch_size = int(input("BATCH SIZE: "))
+		print("[INFO]: 共有 %d 个url" %(self.num_urls))
+		batch_size = int(input("[INPUT]: BATCH SIZE: "))
 		self.num_thrd = int(np.ceil(self.num_urls / batch_size))
 		if self.has_result == True:
 			self.queue = Queue()
 
 		thds = []
-		for i in range(self.num_thrd):
+		# for i in range(self.num_thrd):
+		for i in tqdm(range(self.num_thrd), desc="[INFO]: 开启线程"):
 			frm = i * batch_size
 			# 最后一个线程的batch_size
 			if i == self.num_thrd - 1 and self.num_urls % batch_size != 0:
@@ -154,92 +167,40 @@ class Crawler(object):
 						 args=(frm, batch_size))
 			thd.start()
 			thds.append(thd)
-			print("已开启第 %d 个线程" %(i+1))
+			# print("[INFO]: 已开启第 %d 个线程" %(i+1))
 		for thd in thds:
 			thd.join()
-		print("\n已完成爬取")
+		print("[INFO]: 已完成爬取")
 
 		if self.has_result == True:
 			# 提取数据
 			result = []
-			for thd in thds:
+			for i in tqdm(range(len(thds)), desc="[INFO]: 重载数据"):
 				result += self.queue.get()
-			print("已提取数据")
+			# print("[INFO]: 已提取数据")
 			return result
 
 	def crawl_batch(self, frm, batch_size):
+		thd_num = frm // batch_size
 		urls = self.urls[frm: frm + batch_size]
 		batch_result = []
 		for i, url in enumerate(urls):
+		# for i in tqdm(range(len(urls)), desc="线程%d" %(thd_num + 1)):
+			# url = urls[i]
 			try:
 				res = self.basic_func(frm + i, url)
-				print("第%d个页面抓取成功" %(frm + i))
+				print("[INFO]: 第 %d 个线程, 第 %d 个url抓取成功" 
+					%(thd_num + 1, i+1))
 			except:
 				res = None
-				print('第 %d 个url任务失败' %(frm + i))
+				self.failed_urls.append(url)
+				print('[ERROR]: 第 %d 个线程, 第 %d 个url任务失败,已存入failed_urls'
+				 	%(thd_num + 1, i+1))
 			batch_result.append(res)
 
 		if self.has_result == True:
 			self.queue.put(batch_result)
 
 
-# A TEST FOR CLASS Crawler
-
-from pp import ProxyPool
-
-
-def test_crawler():
-	test_spider = TestSpider()
-	result = test_spider.crawl()
-	print(result)
-
-
-class TestSpider(object):
-	def __init__(self):
-		self.pool = ProxyPool()
-		self.pool.headers = {
-			"User-Agent":'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36',
-			"Cookie":"nats_at=%7CBkKmEvWI2b%7C1%7C%7C%7C%7C; nats=hope911.2.2.84.0.0.0.0.0; nats_unique=hope911.2.2.84.0.0.0.0.0; nats_sess=e2b90c762f65f237dfdf1e3bef530031; nats_landing=No%2BLanding%2BPage%2BURL; _ym_uid=1534274161862516650; _ym_d=1534274161; feid=570ad9e295469353a21b9676f28ae910; atas_uid=BkKmEvWI2b.1; _ym_isad=2; locale=zh; fesid=5f746caa955e119a1626f36e999abf63; last_visited_set=12679; nats_cookie=http%253A%252F%252Fjavhdasia.com%252Ftour%252F104%253Fnats%253D23178.2.2.84.0.0.0.0.0%2526amp%253Bamp%253Bamp%253Bamp%253Bamp%253Bamp%253Bamp%253Bamp%253Bamp%253Bamp%253Bamp%253Bamp%253Bnats_at%255Bsubscription_passthrough1%255D%253DBkKmEvWI2b%2526amp%253Bamp%253Bamp%253Bamp%253Bamp%253Bamp%253Bamp%253Bamp%253Bamp%253Ba; form_prices_zh=1; _ym_visorc_47878991=w",
-			"X-Requested-With": "XMLHttpRequest"
-		}
-		self.urls = pd.read_csv("./data/video_links.csv")["0"].values[:1]
-		self.crawler = Crawler(self.basic_func, self.urls, has_result=True)
-
-	def basic_func(self, index, url):
-		json_data = self.pool.open_url(url).content.decode()
-		html = json.loads(json_data)["template"]
-		soup = BeautifulSoup(html, 'html.parser')
-		imgs_html = soup.find("div", {'class':'photos clearfix'})
-		num_imgs = int(imgs_html.text.split('(')[-1].split(')')[0])
-		img_url_template = imgs_html.find('a', {"class":"fancybox"}).attrs['href']
-
-		img_urls = []
-		for j in range(num_imgs):
-			img_urls.append(self._parse_img_url(img_url_template, j+1))
-
-		res = {}
-		res['index'] = index
-		res['img_urls'] =  img_urls
-		return res
-
-	def _parse_img_url(self, template, num):
-		head = '/'.join(template.split('/')[:-1])
-		last = template.split('/')[-1]
-		parsed_last = ''
-		for c in last:
-			try:
-				int(c)
-			except:
-				parsed_last += c
-				continue
-		img_url = head + '/%d' %num + parsed_last
-		return img_url
-
-	def crawl(self):
-		return self.crawler.crawl()
-
-
-
 if __name__=="__main__":
-	# test_downloader()
-	test_crawler()
+	test_downloader()

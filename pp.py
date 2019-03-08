@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import requests
 from bs4 import BeautifulSoup
 import numpy as np
@@ -5,7 +7,8 @@ import numpy as np
 
 class ProxyPool(object):
 	"""通过爬取西刺免费代理IP来获取代理ip池
-
+	
+	---------------------------------
 	kind: (string) 'nt'/'wt'/'nn'/'wn'
 			nt: 国内普通代理
 			wt: 国内HTTP代理
@@ -42,14 +45,14 @@ class ProxyPool(object):
 		ip = np.random.choice(self.ip_list)
 		return ip
 
-	def open_url(self, url):
+	def open_url(self, url, timeout=None):
 		ip = self.random_choose_ip()
-		print("Using proxies: %s" %(ip))
+		# print("Using proxies: %s" %(ip))
 		self.proxies = {
 			ip.split(':')[0]: ip,
 		}
 		sess = requests.Session()
-		return sess.get(url, headers=self.headers, proxies=self.proxies)
+		return sess.get(url, headers=self.headers, proxies=self.proxies, timeout=timeout)
 
 	def _get_title(self, url):
 		res = self.open_url(url)
