@@ -54,6 +54,16 @@ class ProxyPool(object):
 		sess = requests.Session()
 		return sess.get(url, headers=self.headers, proxies=self.proxies, timeout=timeout)
 
+	def post(self, url, data, timeout=None):
+		ip = self.random_choose_ip()
+		# print("Using proxies: %s" %(ip))
+		self.proxies = {
+			ip.split(':')[0]: ip,
+		}
+		sess = requests.Session()
+		return sess.post(url, data=data, headers=self.headers, proxies=self.proxies, timeout=timeout)
+
+
 	def _get_title(self, url):
 		res = self.open_url(url)
 		html = res.content.decode()

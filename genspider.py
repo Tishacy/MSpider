@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""用于生成基于mtd.Crawler的单线程爬虫模板
+"""用于生成基于mtd.Crawler的爬虫模板
 """
 
 import sys
@@ -28,32 +28,32 @@ from pp import ProxyPool
 from mtd import Crawler
 
 
-class %s(object):
+class {0}(object):
 	def __init__(self):
-		self.name = "%s"
+		self.name = "{1}"
 		self.pool = ProxyPool()
 		# headers
-		# self.pool.headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'}
-		# urls need crawl
-		self.urls = []
-		self.crawler = Crawler(self.basic_func, self.urls, has_result=True)
-		print("已初始化爬虫")
+		# self.pool.headers = {{"User-Agent":'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'}}
+		# the source list need to crawl
+		self.source = []
+		self.crawler = Crawler(self.basic_func, self.source)
+		print("[INFO]: MSpider is ready.")
 
-	def basic_func(self, index, url):
-		# parse single url
+	def basic_func(self, index, src_item):
+		# parse single source item
 		pass
 
 	def crawl(self):
 		self.crawler.crawl()
-		print("共有", len(self.crawler.failed_urls), "个url抓取失败.")
+		print("[INFO]: %d urls failed." %(len(self.crawler.failed_urls), ))
 		if len(self.crawler.failed_urls) > 0:
-			print("[FAILED]: \n", self.crawler.failed_urls)
-			go_on = input("是否继续爬取失败的url, (y/n): ")
+			print("[FAILED]: ", self.crawler.failed_urls)
+			go_on = input("[INPUT]: Recrawl the faield urls, (y/n): ")
 			if go_on == 'y':
-				self.crawler = Crawler(self.basic_func, self.crawler.failed_urls, has_result=True)
+				self.crawler = Crawler(self.basic_func, self.crawler.failed_urls)
 				self.crawl()
 			else:
-				print('已完成')
+				print('[INFO]: Task done.')
 				return
 
 	def test(self):
@@ -62,14 +62,13 @@ class %s(object):
 
 
 if __name__=="__main__":
-	spider = %s()
+	spider = {0}()
 	# spider.test()
 	spider.crawl()
-	""" %(class_name, name, class_name)
+	""".format(class_name, name)
 
-	with open(spider_path, 'w') as f:
+	with open(spider_path, 'w', encoding='utf-8') as f:
 		f.write(spider_template)
-		f.close()
 	print('create a spider named %s.' %(name))
 
 
