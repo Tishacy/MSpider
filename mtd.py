@@ -177,12 +177,12 @@ class Crawler(object):
 		for i, url in enumerate(urls):
 			try:
 				res = self.basic_func(frm + i, url)
-				print("\r[INFO]: Thread %d, url %d is done.".ljust(73)
+				print("\r[INFO]: Thread %d, url %d is done.".ljust(70)
 					%(thd_num + 1, i+1), end='')
 			except:
 				res = None
 				self.failed_urls.append(url)
-				print('\r[ERROR]: Thread %d, url %d is failed, which is stored in failed_urls'.ljust(73)
+				print('\r[ERROR]: Thread %d, url %d is failed, which is stored in failed_urls'.rjust(70)
 				 	%(thd_num + 1, i+1), end='')
 			batch_result.append(res)
 
