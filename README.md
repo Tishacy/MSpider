@@ -1,6 +1,6 @@
 # MTSpider
 
-A Multi-threaded Spider wrapper that could make your spider multi-threaded easily, helping you crawl website faster. :zap: :zap: :zap: 
+A Multi-threaded Spider wrapper that could make your spider multi-threaded easily, helping you crawl website faster. :zap:
 
 *Note that this is for python3 only.*
 
