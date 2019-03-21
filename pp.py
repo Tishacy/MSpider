@@ -22,7 +22,7 @@ class ProxyPool(object):
 		self.page_num = page_num
 		self.website = "https://www.xicidaili.com/%s/%d" %(self.kind, self.page_num)
 		self.headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'}
-		self.ip_list = self.get_ip_list()
+		self.get_ip_list()
 
 	def get_ip_list(self):
 		res = requests.get(self.website, headers=self.headers)
@@ -30,14 +30,13 @@ class ProxyPool(object):
 		# print(html)
 		soup = BeautifulSoup(self.html, 'html.parser')
 		trs = soup.find_all('tr')[1:]
-		ip_list = []
+		self.ip_list = []
 		for tr in trs:
 			tds = [td.text for td in tr.find_all('td')]
 			ip_addr = tds[1]
 			port = tds[2]
 			ip_type = tds[5]
-			ip_list.append("%s://%s:%s" %(ip_type, ip_addr, port))
-		return ip_list
+			self.ip_list.append("%s://%s:%s" %(ip_type, ip_addr, port))
 
 	def random_choose_ip(self):
 		"""从代理ip池中随机选择ip
