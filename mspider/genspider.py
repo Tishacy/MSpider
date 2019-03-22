@@ -57,8 +57,8 @@ class {0}(object):
 				return
 
 	def test(self):
-		url = self.urls[0]
-		self.basic_func(0, url)
+		src_item = self.source[0]
+		self.basic_func(0, src_item)
 
 
 if __name__=="__main__":

@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
-from pp import ProxyPool
-from mtd import Crawler
+from .pp import ProxyPool
+from .mtd import Crawler
 
 
 class MSpider(object):
 	def __init__(self,
 				 basic_func,
-				 urls, 
+				 source, 
 				 pp_type='wn', 
 				 pp_page_num=1, 
 				 has_result=False):
-		self.urls = urls
+		self.source = source
 		self.basic_func = basic_func
 		self.pool = ProxyPool(pp_type, pp_page_num)
 		self.pool.headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'}
-		self.crawler = Crawler(self.basic_func, self.urls, False)
+		self.crawler = Crawler(self.basic_func, self.source, has_result)
 		print("[INFO]: MSpider is ready.")
 
 	def crawl(self):
@@ -31,8 +31,8 @@ class MSpider(object):
 				return
 
 	def test(self):
-		url = self.urls[0]
-		self.basic_func(0, url)
+		src_item = self.source[0]
+		self.basic_func(0, src_item)
 
 
 if __name__=="__main__":
