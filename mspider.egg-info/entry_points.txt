@@ -1,0 +1,3 @@
+[console_scripts]
+genspider = mspider.genspider:genspider
+

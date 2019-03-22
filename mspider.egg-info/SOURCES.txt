@@ -1,0 +1,14 @@
+README.md
+setup.cfg
+setup.py
+mspider/__init__.py
+mspider/genspider.py
+mspider/mtd.py
+mspider/pp.py
+mspider/spider.py
+mspider.egg-info/PKG-INFO
+mspider.egg-info/SOURCES.txt
+mspider.egg-info/dependency_links.txt
+mspider.egg-info/entry_points.txt
+mspider.egg-info/requires.txt
+mspider.egg-info/top_level.txt

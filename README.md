@@ -1,4 +1,4 @@
-# MTSpider
+# MSpider
 
 A Multi-threaded Spider wrapper that could make your spider multi-threaded easily, helping you crawl website faster. :zap:
 
@@ -6,43 +6,119 @@ A Multi-threaded Spider wrapper that could make your spider multi-threaded easil
 
 ## Install
 
-Install it using `pip` is on the way.
+```bash
+pip install mspider
+```
 
 ## Quick Start
 
-```python
-from spider import MSpider
+### Automatically create a `MSpider` 
 
-# 1. Define the function of your single threaded spider.
-# Note that this function must has two parameters.
-# The first param represents the index of source item,
-# and the second is the source item you'd handle in the function.
-def spi_func(index, src_item):
-    url = src_item
-    res = mspider.pool.open_url(url)
-    html = res.content.decode('utf-8')
-    # deal with the html
+1. `cd` to the folder you’d like to create a `MSpider` in terminal or cmd, then type `genspider <your spider name>`, such as:
 
-# 2. Create a multi-threaded spider and pass it your spider function and sources you'd crawl.
-source = ['http://github.com', 'http://baidu.com']
-mspider = MSpider(spi_func, source)
+   ```bash
+   $ genspider test
+   ```
 
-# 3. Start to Crawl!
-mspider.crawl()
-"""
-[INFO]: MSpider is ready.
-[INFO]: 2 urls in total.
-[INPUT]: BATCH SIZE: 1
-[INFO]: Open threads: 100%|████████████████| 2/2 [00:00<00:00, 356.36it/s]
-[INFO]: Task done.
-[INFO]: The task costs 1.1157 sec.
-[INFO]: 0 urls failed.
-"""
-```
+   A file `test.py` that contains a `MSpider` is created successfully if seeing the following information.
+
+   ```bash
+   create a spider named test.
+   ```
+
+2. Open the spider file `test.py`. Find `self.source = []` in line 14, and replacing it by the sources (usually a list of urls) you’d like to handle by the spider, such as:
+
+   ```python
+   self.source = ['http://www.github.com',
+                  'http://www.baidu.com']
+   ```
+
+   Each element of the `self.source` is called `src_item`, the index of `src_item` is called `index`.
+
+3. Find the funciont `basic_func`, where you could define your spider funcion, such as:
+
+   ```python
+   def basic_func(self, index, src_item):
+       url = src_item
+       res = self.pool.open_url(url)
+       html = res.content.decode('utf-8')
+       # deal with the html
+       # save the extracted information
+   ```
+
+4. Run the spider to start crawling.
+
+   ```bash
+   $ python3 test.py
+   ```
+
+   You just input the number of source items handled by each thread (BATCH SIZE) in the terminal or cmd, then return it, and the MSpider will crawl your sources in a multi-threaded manner.
+
+   ```bash
+   [INFO]: MSpider is ready.
+   [INFO]: 2 urls in total.
+   [INPUT]: BATCH SIZE: 1
+   [INFO]: Open threads: 100%|████████████████| 2/2 [00:00<00:00, 356.36it/s]
+   [INFO]: Task done.
+   [INFO]: The task costs 1.1157 sec.
+   [INFO]: 0 urls failed.
+   ```
+
+### Mannually create a `MSpider`
+
+1. Standard import the MSpider.
+
+   ```python
+   from mspider.spider import MSpider
+   ```
+
+2. Define the function of your single threaded spider.
+
+   Note that this function must has two parameters.
+
+   - `index`: the index of source item
+   - `src_item`: the source item you are going to deal with in this function, which is usually an url or anything you need to process, such as a tuple like `(name, url)`.
+
+   ```python
+   def spi_func(index, src_item):
+       name, url = src_item
+       res = mspider.pool.open_url(url)
+       html = res.content.decode('utf-8')
+       # deal with the html
+       # save the extracted information
+   ```
+
+   > `mspider.pool` is an instance of `mspider.pp.ProxyPool`, see "**Usages of `pp.ProxyPool`**"  in **Usages** part for more information.
+
+3. Now comes the key part. Create an instance of `MSpider` and pass it your spider function and sources you’d crawl.
+
+   ```python
+   sources = [('github', 'http://www.github.com'),
+              ('baidu', 'http://www.baidu.com')]
+   mspider = MSpider(spi_func, sources)
+   ```
+
+4. Start to crawl!
+
+   ```python
+   mspider.crawl()
+   ```
+
+   Then you will see the following information in your terminal or cmd. You just input the BATCH SIZE, and the MSpider will crawl your sources in a multi-threaded manner.
+
+   ```bash
+   [INFO]: MSpider is ready.
+   [INFO]: 2 urls in total.
+   [INPUT]: BATCH SIZE: 1
+   [INFO]: Open threads: 100%|████████████████| 2/2 [00:00<00:00, 356.36it/s]
+   [INFO]: Task done.
+   [INFO]: The task costs 1.1157 sec.
+   [INFO]: 0 urls failed.
+   ```
 
 ## Usages
 
-This package has three main module `pp` `mtd` and `spider`
+The `mspider` package has three main module `pp` `mtd` and `spider`
 
 - `pp`  has the class of `ProxyPool`, which helps you get the proxy IP pool from xici free IPs.
 - `mtd` has two classes, `Crawler` and `Downloader`
@@ -53,7 +129,7 @@ This package has three main module `pp` `mtd` and `spider`
 ### Usage of `pp.ProxyPool`
 
 ```python
-from pp import ProxyPool
+from mspider.pp import ProxyPool
 
 pool = ProxyPool()
 
@@ -95,7 +171,7 @@ print(res.status_code)
 ### Usage of `mtd.Downloader`
 
 ```python
-from mtd import Downloader
+from mspider.mtd import Downloader
 
 # Prepare source data that need download
 names = ['a', 'b', 'c']
@@ -126,3 +202,4 @@ See this in  **Quick Start**.
 Copyright (c) 2019 tishacy.
 
 Licensed under the [MIT License](https://github.com/Tishacy/LabTest/blob/master/LICENSE).
+

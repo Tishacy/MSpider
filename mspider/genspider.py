@@ -24,8 +24,8 @@ def genspider(*args, **kwargs):
 
 	spider_template= """# -*- coding: utf-8 -*-
 
-from pp import ProxyPool
-from mtd import Crawler
+from mspider.pp import ProxyPool
+from mspider.mtd import Crawler
 
 
 class {0}(object):
@@ -79,4 +79,4 @@ def format_class_name(spider_name):
 
 
 if __name__=="__main__":
-	genspider(name="spider")
+	genspider()
