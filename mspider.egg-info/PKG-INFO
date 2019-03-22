@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mspider
-Version: 0.2.1
+Version: 0.2.2
 Summary: Make your spider multi-threaded.
 Home-page: https://github.com/Tishacy/MSpider
 Author: Tishacy
@@ -22,7 +22,7 @@ Description: # MSpider
         
         ### Automatically create a `MSpider` 
         
-        1. `cd` to the folder you’d like to create a `MSpider` in terminal or cmd, then type `genspider <your spider name>`, such as:
+        1. `cd` to the folder you鈥檇 like to create a `MSpider` in terminal or cmd, then type `genspider <your spider name>`, such as:
         
            ```bash
            $ genspider test
@@ -34,16 +34,16 @@ Description: # MSpider
            create a spider named test.
            ```
         
-        2. Open the spider file `test.py`. Find `self.source = []` in line 14, and replacing it by the sources (usually a list of urls) you’d like to handle by the spider, such as:
+        2. Open the spider file `test.py`. Find `self.source = []` in line 14, and replacing it by the sources (usually a list of urls) you鈥檇 like to handle by the spider, such as:
         
            ```python
            self.source = ['http://www.github.com',
                           'http://www.baidu.com']
            ```
         
-           Each element of the `self.source` is called `src_item`, the index of `src_item` is called `index`.
+           Each element of the `self.source` is called `src_item`, and the index of `src_item` is called `index`.
         
-        3. Find the funciont `basic_func`, where you could define your spider funcion, such as:
+        3. Find the function `basic_func`, where you could define your spider function, such as:
         
            ```python
            def basic_func(self, index, src_item):
@@ -60,13 +60,13 @@ Description: # MSpider
            $ python3 test.py
            ```
         
-           You just input the number of source items handled by each thread (BATCH SIZE) in the terminal or cmd, then return it, and the MSpider will crawl your sources in a multi-threaded manner.
+           You just input the number of source items handled by each thread (BATCH SIZE) in the terminal or cmd, then return it, and then the MSpider will crawl your sources in a multi-threaded manner.
         
            ```bash
            [INFO]: MSpider is ready.
            [INFO]: 2 urls in total.
            [INPUT]: BATCH SIZE: 1
-           [INFO]: Open threads: 100%|████████████████| 2/2 [00:00<00:00, 356.36it/s]
+           [INFO]: Open threads: 100%|鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻堚枅| 2/2 [00:00<00:00, 356.36it/s]
            [INFO]: Task done.
            [INFO]: The task costs 1.1157 sec.
            [INFO]: 0 urls failed.
@@ -98,7 +98,7 @@ Description: # MSpider
         
            > `mspider.pool` is an instance of `mspider.pp.ProxyPool`, see "**Usages of `pp.ProxyPool`**"  in **Usages** part for more information.
         
-        3. Now comes the key part. Create an instance of `MSpider` and pass it your spider function and sources you’d crawl.
+        3. Now comes the key part. Create an instance of `MSpider` and pass it your spider function and sources you鈥檇 crawl.
         
            ```python
            sources = [('github', 'http://www.github.com'),
@@ -112,13 +112,13 @@ Description: # MSpider
            mspider.crawl()
            ```
         
-           Then you will see the following information in your terminal or cmd. You just input the BATCH SIZE, and the MSpider will crawl your sources in a multi-threaded manner.
+           Then you will see the following information in your terminal or cmd. You just input the BATCH SIZE, and then the MSpider will crawl your sources in a multi-threaded manner.
         
            ```bash
            [INFO]: MSpider is ready.
            [INFO]: 2 urls in total.
            [INPUT]: BATCH SIZE: 1
-           [INFO]: Open threads: 100%|████████████████| 2/2 [00:00<00:00, 356.36it/s]
+           [INFO]: Open threads: 100%|鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻堚枅| 2/2 [00:00<00:00, 356.36it/s]
            [INFO]: Task done.
            [INFO]: The task costs 1.1157 sec.
            [INFO]: 0 urls failed.
@@ -126,9 +126,9 @@ Description: # MSpider
         
         ## Usages
         
-        The `mspider` package has three main module `pp` `mtd` and `spider`
+        The `mspider` package has three main modules, `pp`, `mtd` and `spider`
         
-        - `pp`  has the class of `ProxyPool`, which helps you get the proxy IP pool from xici free IPs.
+        - `pp`  has a class of `ProxyPool`, which helps you get the proxy IP pool from xici free IPs.
         - `mtd` has two classes, `Crawler` and `Downloader`
           - `Crawler` helps you make your spider multi-threaded.
           - `Downloader` helps you download things multi-threadedly as long as you pass your urls in the form of `list(zip(names, urls)) ` in it.
@@ -194,7 +194,7 @@ Description: # MSpider
         """
         [INFO]: 3 urls in total.
         [INPUT]: BATCH SIZE: 1
-        [INFO]: Open threads: 100%|███████████████| 3/3 [00:00<00:00, 3167.90it/s]
+        [INFO]: Open threads: 100%|鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻坾 3/3 [00:00<00:00, 3167.90it/s]
         [INFO]: Task done.
         [INFO]: The task costs 0.3324 sec.
         [INFO]: 0 urls failed.
