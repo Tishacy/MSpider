@@ -33,9 +33,9 @@ pip install mspider
                   'http://www.baidu.com']
    ```
 
-   Each element of the `self.source` is called `src_item`, the index of `src_item` is called `index`.
+   Each element of the `self.source` is called `src_item`, and the index of `src_item` is called `index`.
 
-3. Find the funciont `basic_func`, where you could define your spider funcion, such as:
+3. Find the function `basic_func`, where you could define your spider function, such as:
 
    ```python
    def basic_func(self, index, src_item):
@@ -52,7 +52,7 @@ pip install mspider
    $ python3 test.py
    ```
 
-   You just input the number of source items handled by each thread (BATCH SIZE) in the terminal or cmd, then return it, and the MSpider will crawl your sources in a multi-threaded manner.
+   You just input the number of source items handled by each thread (BATCH SIZE) in the terminal or cmd, then return it, and then the MSpider will crawl your sources in a multi-threaded manner.
 
    ```bash
    [INFO]: MSpider is ready.
@@ -104,7 +104,7 @@ pip install mspider
    mspider.crawl()
    ```
 
-   Then you will see the following information in your terminal or cmd. You just input the BATCH SIZE, and the MSpider will crawl your sources in a multi-threaded manner.
+   Then you will see the following information in your terminal or cmd. You just input the BATCH SIZE, and then the MSpider will crawl your sources in a multi-threaded manner.
 
    ```bash
    [INFO]: MSpider is ready.
@@ -118,9 +118,9 @@ pip install mspider
 
 ## Usages
 
-The `mspider` package has three main module `pp` `mtd` and `spider`
+The `mspider` package has three main modules, `pp`, `mtd` and `spider`
 
-- `pp`  has the class of `ProxyPool`, which helps you get the proxy IP pool from xici free IPs.
+- `pp`  has a class of `ProxyPool`, which helps you get the proxy IP pool from xici free IPs.
 - `mtd` has two classes, `Crawler` and `Downloader`
   - `Crawler` helps you make your spider multi-threaded.
   - `Downloader` helps you download things multi-threadedly as long as you pass your urls in the form of `list(zip(names, urls)) ` in it.
