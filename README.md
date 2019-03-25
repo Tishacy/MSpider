@@ -1,10 +1,14 @@
 # MSpider
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Downloads](https://pepy.tech/badge/mspider/week)](https://pepy.tech/project/mspider) [![Pyversion](https://img.shields.io/pypi/pyversions/mspider.svg?color=#)](https://pypi.org/project/mspider/) [![Version](https://img.shields.io/pypi/v/mspider.svg?color=red)](https://pypi.org/project/mspider) 
+
 A Multi-threaded Spider wrapper that could make your spider multi-threaded easily, helping you crawl website faster. :zap:
 
 *Note that this is for python3 only.*
 
 ## Install
+
+MSpider could be easily installed using pip:
 
 ```bash
 pip install mspider
@@ -40,7 +44,7 @@ pip install mspider
    ```python
    def basic_func(self, index, src_item):
        url = src_item
-       res = self.pool.open_url(url)
+       res = self.sess.get(url)
        html = res.content.decode('utf-8')
        # deal with the html
        # save the extracted information
@@ -82,13 +86,11 @@ pip install mspider
    ```python
    def spi_func(index, src_item):
        name, url = src_item
-       res = mspider.pool.open_url(url)
+       res = mspider.sess.get(url)
        html = res.content.decode('utf-8')
        # deal with the html
        # save the extracted information
    ```
-
-   > `mspider.pool` is an instance of `mspider.pp.ProxyPool`, see "**Usages of `pp.ProxyPool`**"  in **Usages** part for more information.
 
 3. Now comes the key part. Create an instance of `MSpider` and pass it your spider function and sources you’d crawl.
 
@@ -120,10 +122,15 @@ pip install mspider
 
 The `mspider` package has three main modules, `pp`, `mtd` and `spider`
 
-- `pp`  has a class of `ProxyPool`, which helps you get the proxy IP pool from xici free IPs.
+- `pp`  has a class of `ProxyPool`, which helps you get the proxy IP pool from xici free IPs. 
+
+  **Note that there are few free IPs could work, so try not to use this module. If you’d like to use proxy IP for your spider, this code may be helpful for you to write your own proxy pool.** 
+
 - `mtd` has two classes, `Crawler` and `Downloader`
+
   - `Crawler` helps you make your spider multi-threaded.
   - `Downloader` helps you download things multi-threadedly as long as you pass your urls in the form of `list(zip(names, urls)) ` in it.
+
 - `spider` has the class of `MSpider`, which uses the `Crawler` in module `mtd`, and has some basic configurations of `Crawler`, so this is a easier way to turn your spider into a multi-threaded spider.
 
 ### Usage of `pp.ProxyPool`
@@ -138,17 +145,31 @@ pool = ProxyPool()
 # has a list of IPs crawled from xici free IPs.
 print(pool.ip_list)
 """
-['HTTP://58.249.55.222:9797', 'HTTPS://113.54.152.170:8080', 'HTTP://180.140.191.233:36820', 'HTTP://163.125.69.145:8888', 'HTTP://14.115.107.83:808', 'HTTP://182.111.129.37:53281', 'HTTPS://202.112.237.102:3128', 'HTTPS://163.125.252.109:9797', ... , 'HTTPS://120.24.43.177:8080', 'HTTP://113.116.144.124:9000', 'HTTP://114.249.118.17:9000']
+{'http': ['HTTP://211.162.70.229:3128',
+          'HTTP://124.207.82.166:8008',
+          'HTTP://121.69.37.6:9797',
+          'HTTP://1.196.160.94:9999',
+          'HTTP://59.44.247.194:9797',
+          'HTTP://14.146.92.72:9797',
+          'HTTP://223.166.247.206:9000',
+          'HTTP://182.111.129.37:53281',
+          'HTTP://58.243.50.184:53281',
+          'HTTP://218.28.58.150:53281'],
+ 'https': ['HTTPS://113.140.1.82:53281',
+           'HTTPS://14.23.58.58:443',
+           'HTTPS://122.136.212.132:53281']}
 """
 # Randomly choose an IP
-ip = pool.random_choose_ip()
+protocol = "http" # or "https"
+ip = pool.random_choose_ip(protocol)
 print(ip)
 """
-'HTTP://182.111.129.37:53281'
+'HTTP://59.44.247.194:9797'
 """
 
 # Update the IP list
 pool.get_ip_list()
+pool.check_all_ip()
 
 # Request an url using proxy by 'GET'
 url = "http://www.google.com"

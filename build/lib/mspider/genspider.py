@@ -24,16 +24,17 @@ def genspider(*args, **kwargs):
 
 	spider_template= """# -*- coding: utf-8 -*-
 
-from mspider.pp import ProxyPool
+import requests
 from mspider.mtd import Crawler
 
 
 class {0}(object):
 	def __init__(self):
 		self.name = "{1}"
-		self.pool = ProxyPool()
+		self.sess = requests.Session()
 		# headers
-		# self.pool.headers = {{"User-Agent":'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'}}
+		self.headers = {{"User-Agent":'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'}}
+		self.sess.headers.update(self.headers)
 		# the source list need to crawl
 		self.source = []
 		self.crawler = Crawler(self.basic_func, self.source)

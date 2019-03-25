@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
-from .pp import ProxyPool
+import requests
 from .mtd import Crawler
 
 
 class MSpider(object):
 	def __init__(self,
 				 basic_func,
-				 source, 
-				 pp_type='wn', 
-				 pp_page_num=1, 
+				 source,
 				 has_result=False):
 		self.source = source
 		self.basic_func = basic_func
-		self.pool = ProxyPool(pp_type, pp_page_num)
-		self.pool.headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'}
+		self.sess = requests.Session()
+		self.headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'}
+		self.sess.headers.update(self.headers)
 		self.crawler = Crawler(self.basic_func, self.source, has_result)
 		print("[INFO]: MSpider is ready.")
 
