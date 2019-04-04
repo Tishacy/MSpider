@@ -24,7 +24,7 @@ class {0}(object):
         print("[INFO]: %d urls failed." %(len(self.crawler.failed_urls), ))
         if len(self.crawler.failed_urls) > 0:
             print("[FAILED]: ", self.crawler.failed_urls)
-            go_on = input("[INPUT]: Recrawl the faield urls, (y/n): ")
+            go_on = input("[INPUT]: Recrawl the failed urls, (y/n): ")
             if go_on == 'y':
                 self.crawler = Crawler(self.basic_func, self.crawler.failed_urls)
                 self.crawl()
