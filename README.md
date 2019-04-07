@@ -133,7 +133,7 @@ The `mspider` package has three main modules, `pp`, `mtd` and `spider`
   - `Crawler` helps you make your spider multi-threaded.
   - `Downloader` helps you download things multi-threadedly as long as you pass your urls in the form of `list(zip(names, urls)) ` in it.
 
-- `spider` has the class of `MSpider`, which uses the `Crawler` in module `mtd`, and has some basic configurations of `Crawler`, so this is a easier way to turn your spider into a multi-threaded spider.
+- `spider` has the class of `MSpider`, which uses the `Crawler` in module `mtd`, and has some basic configurations of `Crawler`, so this is an easier way to turn your spider into a multi-threaded spider.
 
 ### Usage of `pp.ProxyPool`
 
@@ -218,7 +218,7 @@ dl.download(out_folder='test', engine='wget')
 
 ### Usage of `spider.MSpider`
 
-See this in  **Quick Start**.
+See this in  [**Quick Start**](#Quick Start).
 
 ## Feature
 - v2.0.4:
@@ -229,4 +229,4 @@ See this in  **Quick Start**.
 
 Copyright (c) 2019 tishacy.
 
-Licensed under the [MIT License](https://github.com/Tishacy/LabTest/blob/master/LICENSE).
+Licensed under the [MIT License](./LICENSE).
