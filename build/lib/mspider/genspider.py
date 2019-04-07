@@ -14,9 +14,9 @@ def genspider():
 		raise ValueError("File %s.py already exists, please change your spider name." %(args.name))
 
 	if args.base in ["m", 'MSpider', None]:
-		templ_path = './templates/spider_templ_based_MSpider.py'
+		templ_path = get_resource_path('templates/spider_templ_based_MSpider.py')
 	elif args.base in ['c', 'Crawler']:
-		templ_path = './templates/spider_templ_based_Crawler.py'
+		templ_path = get_resource_path('templates/spider_templ_based_Crawler.py')
 	else:
 		raise ValueError("-b or --base is the spider template that based, choose 'm'/'MSpider' for MSpider template, or 'c'/'Crawler' for Crawler.")
 
@@ -29,6 +29,10 @@ def genspider():
 def _format_class_name(spider_name):
 	return spider_name.capitalize() + 'Spider'
 
+def get_resource_path(path):
+    dir_path = os.path.dirname(__file__)
+    dir_path = dir_path if dir_path else os.getcwd()
+    return os.path.join(dir_path, path)
 
 if __name__=="__main__":
 	genspider()
