@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="mspider",
-    version="0.2.3",
+    version="0.2.4",
     author="Tishacy",
     author_email="",
     description="Make your spider multi-threaded.",
