@@ -7,13 +7,15 @@ class MSpider(object):
 	def __init__(self,
 				 basic_func,
 				 source,
-				 has_result=False):
+				 has_result=False,
+				 batch_size=None):
 		self.source = source
 		self.basic_func = basic_func
+		self.batch_size = batch_size
 		self.sess = requests.Session()
 		self.headers = {'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36'}
 		self.sess.headers.update(self.headers)
-		self.crawler = Crawler(self.basic_func, self.source, has_result)
+		self.crawler = Crawler(self.basic_func, self.source, has_result, self.batch_size)
 		print("[INFO]: MSpider is ready.")
 
 	def crawl(self):
@@ -23,7 +25,7 @@ class MSpider(object):
 			print("[FAILED]: \n", self.crawler.failed_urls)
 			go_on = input("[INPUT]: Recrawl the failed urls, (y/n): ")
 			if go_on == 'y':
-				self.crawler = Crawler(self.basic_func, self.crawler.failed_urls, has_result=True)
+				self.crawler = Crawler(self.basic_func, self.crawler.failed_urls, has_result=False, batch_size=self.batch_size)
 				self.crawl()
 			else:
 				print('[INFO]: Task done.')
