@@ -1,6 +1,6 @@
 # MSpider
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Downloads](https://pepy.tech/badge/mspider/week)](https://pepy.tech/project/mspider) [![Pyversion](https://img.shields.io/pypi/pyversions/mspider.svg?color=#)](https://pypi.org/project/mspider/) [![Version](https://img.shields.io/pypi/v/mspider.svg?color=red)](https://pypi.org/project/mspider) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  [![Pyversion](https://img.shields.io/pypi/pyversions/mspider.svg?color=#)](https://pypi.org/project/mspider/) [![Version](https://img.shields.io/pypi/v/mspider.svg?color=red)](https://pypi.org/project/mspider)
 
 A Multi-threaded Spider wrapper that could make your spider multi-threaded easily, helping you crawl website faster. :zap:
 
@@ -16,13 +16,15 @@ pip install mspider
 
 ## Quick Start
 
-### Automatically create a `MSpider` 
+### Automatically create a `MSpider`
 
-1. `cd` to the folder you’d like to create a `MSpider` in terminal or cmd, then type `genspider <your spider name>`, such as:
+1. `cd` to the folder you’d like to create a `MSpider` in terminal or cmd, then type `genspider -b <template based> <your spider name>`, such as:
 
    ```bash
-   $ genspider test
+   $ genspider -b MSpider test
    ```
+
+   where `-b` is to choose the template of spider you based, you could choose 'MSpider' (Default if not given) or 'Crawler', and `test` is the spider name.
 
    A file `test.py` that contains a `MSpider` is created successfully if seeing the following information.
 
@@ -30,7 +32,7 @@ pip install mspider
    create a spider named test.
    ```
 
-2. Open the spider file `test.py`. Find `self.source = []` in line 14, and replacing it by the sources (usually a list of urls) you’d like to handle by the spider, such as:
+2. Open the spider file `test.py`. Find `self.source = []` in line 15, and replacing it by the sources (usually a list of urls) you’d like to handle by the spider, such as:
 
    ```python
    self.source = ['http://www.github.com',
@@ -122,9 +124,9 @@ pip install mspider
 
 The `mspider` package has three main modules, `pp`, `mtd` and `spider`
 
-- `pp`  has a class of `ProxyPool`, which helps you get the proxy IP pool from xici free IPs. 
+- `pp`  has a class of `ProxyPool`, which helps you get the proxy IP pool from xici free IPs.
 
-  **Note that there are few free IPs could work, so try not to use this module. If you’d like to use proxy IP for your spider, this code may be helpful for you to write your own proxy pool.** 
+  **Note that there are few free IPs could work, so try not to use this module. If you’d like to use proxy IP for your spider, this code may be helpful for you to write your own proxy pool.**
 
 - `mtd` has two classes, `Crawler` and `Downloader`
 
@@ -218,9 +220,11 @@ dl.download(out_folder='test', engine='wget')
 
 See this in  **Quick Start**.
 
+## Feature
+- v2.0.4: Add spider templates.
+
 ## License
 
 Copyright (c) 2019 tishacy.
 
 Licensed under the [MIT License](https://github.com/Tishacy/LabTest/blob/master/LICENSE).
-
