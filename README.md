@@ -218,7 +218,7 @@ dl.download(out_folder='test', engine='wget')
 
 ### Usage of `spider.MSpider`
 
-See this in  [**Quick Start**](#Quick Start).
+See this in  [**Quick Start**](#quick-start).
 
 ## Feature
 - v2.0.4:
