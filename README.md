@@ -32,7 +32,7 @@ pip install mspider
    create a spider named test.
    ```
 
-2. Open the spider file `test.py`. Find `self.source = []` in line 15, and replacing it by the sources (usually a list of urls) you’d like to handle by the spider, such as:
+2. Open the spider file `test.py`. Find `self.source = []` in line 8 (or line 15 if your spider template is 'Crawler'), and replacing it by the sources (usually a list of urls) you’d like to handle by the spider, such as:
 
    ```python
    self.source = ['http://www.github.com',
@@ -221,7 +221,9 @@ dl.download(out_folder='test', engine='wget')
 See this in  **Quick Start**.
 
 ## Feature
-- v2.0.4: Add spider templates.
+- v2.0.4:
+  - Add spider templates. One is based on `spider.MSpider`, the other is based on `mtd.Crawler`.
+  - Add the argument `batch_size` to `spider.MSpider` and `mtd.Crawler`.
 
 ## License
 
