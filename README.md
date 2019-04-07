@@ -221,7 +221,7 @@ dl.download(out_folder='test', engine='wget')
 See this in  [**Quick Start**](#quick-start).
 
 ## Feature
-- v2.0.4:
+- v2.0.5:
   - Add spider templates. One is based on `spider.MSpider`, the other is based on `mtd.Crawler`.
   - Add the argument `batch_size` to `spider.MSpider` and `mtd.Crawler`.
 
