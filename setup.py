@@ -13,6 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/Tishacy/MSpider",
     packages=setuptools.find_packages(),
+    include_package_data=True,
     install_requires=["numpy>=1.14.4","requests>=2.18.4",
                       "pandas>=0.24.1","tqdm>=4.30.0",
                       "wget>=3.2","beautifulsoup4>=4.7.1"],

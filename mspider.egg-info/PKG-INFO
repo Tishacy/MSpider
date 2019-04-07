@@ -141,7 +141,7 @@ Description: # MSpider
           - `Crawler` helps you make your spider multi-threaded.
           - `Downloader` helps you download things multi-threadedly as long as you pass your urls in the form of `list(zip(names, urls)) ` in it.
         
-        - `spider` has the class of `MSpider`, which uses the `Crawler` in module `mtd`, and has some basic configurations of `Crawler`, so this is a easier way to turn your spider into a multi-threaded spider.
+        - `spider` has the class of `MSpider`, which uses the `Crawler` in module `mtd`, and has some basic configurations of `Crawler`, so this is an easier way to turn your spider into a multi-threaded spider.
         
         ### Usage of `pp.ProxyPool`
         
@@ -226,7 +226,7 @@ Description: # MSpider
         
         ### Usage of `spider.MSpider`
         
-        See this in  **Quick Start**.
+        See this in  [**Quick Start**](#quick-start).
         
         ## Feature
         - v2.0.4:
@@ -237,7 +237,7 @@ Description: # MSpider
         
         Copyright (c) 2019 tishacy.
         
-        Licensed under the [MIT License](https://github.com/Tishacy/LabTest/blob/master/LICENSE).
+        Licensed under the [MIT License](./LICENSE).
         
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
